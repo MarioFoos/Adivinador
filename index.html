@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Adivinador</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Robot Adivinador</h1>
+        <p>El Robot Adivinador puede adivinar en que número pensaste. Ten a mano papel y lapiz y sigue los pasos.</p><br>
+
+        <div class="content">
+            <div class="image-container">
+                <img id="current-image" src="" alt="Estado actual">
+            </div>
+
+            <div class="text-container">
+                <h2 id="current-title">Título del Estado</h2>
+                <p id="current-description">Descripción del estado actual...</p>
+
+                <!-- Input para ingresar número -->
+                <div class="input-container" id="input-container" style="display: none;">
+                    <div class="input-wrapper">
+                        <input type="number" id="input-number" class="numero-input" placeholder="Ej: 42" min="0" max="1000" step="1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="next-btn" class="btn btn-primary">Siguiente</button>
+                <button id="restart-btn" class="btn btn-secondary">Reiniciar</button>
+            </div>
+        </div>
+
+        <div id="final-result" class="final-result hidden">
+            <h2>¡Resultado Final!</h2>
+            <p>Has completado toda la secuencia exitosamente.</p>
+            <div class="result-image">
+                <img src="robot.png" alt="Resultado final" id="result-image">
+            </div>
+            <button id="back-to-sequence" class="btn btn-primary">Volver al inicio</button>
+        </div>
+    </div>
+
+    <!-- Indicador de transición -->
+    <div id="transicion-indicator" class="transicion-indicator">
+        <div class="loading-spinner"></div>
+        <span>Procesando...</span>
+        <div class="transicion-timer">
+            <div class="transicion-timer-fill" id="transicion-timer-fill"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
