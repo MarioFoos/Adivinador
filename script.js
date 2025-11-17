@@ -10,12 +10,16 @@ const finalTransition = {
     texto: "Procesando..."
 };
 
-let a = Math.floor(Math.random() * 5) + 3;
-let b = 2 * a - 5;
+let num1, num2;
+let estados;
+let initRand = false;
 
-console.log("---> " + a);
+function genRandoms()
+{
+    num1 = Math.floor(Math.random()*5) + 3; // 3 a 7
+    num2 = Math.floor(Math.random()*3) + 2; // 2 a 4
 
-const estados = [
+    estados = [
     {
         id: 1,
         titulo: "Piensa en un número",
@@ -28,7 +32,7 @@ const estados = [
     },
     {
         id: 3,
-        titulo: "Sumale " + (3 * a),
+        titulo: "Sumale " + (3*num1),
         descripcion: "Guarda el resultado, lo seguiremos usando",
         imagen: "robot0.png",
     },
@@ -68,8 +72,8 @@ const estados = [
     },
     {
         id: 11,
-        titulo: "Resta " + b,
-        descripcion: "Por último, resta " + b + " al resutaldo anterior",
+        titulo: "Resta " + (2*num1 - num2),
+        descripcion: "Por último, resta lo indicado al resutaldo anterior",
         imagen: "robot0.png",
     },
     {
@@ -85,8 +89,42 @@ const estados = [
     {
         id: 14,
         transicion: finalTransition
+    }];    
+    initRand = true;
+    console.log("a: " + num1 + ". b: " + num2);
+}
+
+function getEstados()
+{
+    if(!initRand)
+    {
+        genRandoms();
     }
-];
+    return estados;
+}
+
+function getNum1()
+{
+    if(!initRand)
+    {
+        genRandoms();
+    }
+    return num1;
+}
+
+function getNum2()
+{
+    if(!initRand)
+    {
+        genRandoms();
+    }
+    return num2;
+}
+
+function getLastOp()
+{
+    return 2*getNum1() - getNum2();
+}
 
 // Resultado final
 const resultadoFinal = {
@@ -97,7 +135,7 @@ const resultadoFinal = {
 
 // Variables globales
 let estadoActual = 0;
-const totalEstados = estados.length;
+const totalEstados = getEstados().length;
 let timeoutTransicion = null;
 let enTransicion = false;
 
@@ -120,7 +158,7 @@ function mostrarTransicion(transicion) {
     enTransicion = true;
 
     // Guardar el estado actual antes de la transición
-    const estadoPrevio = estados[estadoActual];
+    const estadoPrevio = getEstados()[estadoActual];
 
     // Cambiar a la interfaz de transición
     currentImage.src = transicion.imagen;
@@ -153,7 +191,7 @@ function mostrarTransicion(transicion) {
 function actualizarInterfaz() {
     if (enTransicion) return;
 
-    const estado = estados[estadoActual];
+    const estado = getEstados()[estadoActual];
 
     // Verificar si este estado tiene transición automática
     if (estado.transicion && !enTransicion) {
@@ -235,8 +273,7 @@ function reiniciarSecuencia() {
     enTransicion = false;
     estadoActual = 0;
     inputNumber.value = null;
-    a = Math.floor(Math.random() * 5) + 3;
-    b = 2 * a - 5;
+    genRandoms();
 
     // Remover clases de animación
     currentImage.classList.remove('animating');
@@ -257,7 +294,7 @@ function mostrarResultadoFinal() {
     finalResult.classList.remove('hidden');
 
     const numero = parseInt(inputNumber.value.trim());
-    resultadoFinal.descripcion = '¡El número en que pensaste es ' + (numero - (a + 3)) + '!';
+    resultadoFinal.descripcion = '¡El número en que pensaste es ' + (numero - (getNum1() + getNum2() - 2 )) + '!';
 
     // Configurar el resultado final
     const resultadoTitle = finalResult.querySelector('h2');
